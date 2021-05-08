@@ -1,30 +1,31 @@
-import React, {useState} from "react";
+import React from "react";
 import "./style.css";
 
 
 function Simon() {
     // const [simonCounter, setSimonCounter] = useState(0);
 
-    let simonCounter = 0;
     let colorArray = ["red", "green", "yellow", "blue"];
-    let myTurn = 0;
+    let turn = 0;
     let simonColor = "";
     let colorArrayIndex = 0;
     let simonsTurnArray = [];
     let simonTurnArrayIndex = 0;
     let simonTimer;
     let simonTurn = 0;
+    let myTurn = 0;
+    let gameOver = false;
 
     function onStartClick() {
-        myTurn = 1;
+        turn = 1;
         simonTimer = setInterval(onTimerClick, 2000);
         colorArrayIndex = Math.floor(Math.random() * 4);
         simonsTurnArray.push(colorArray[colorArrayIndex]);
+        document.getElementById('start').style.visibility = "hidden";
     }
 
     function onTimerClick() {  
         simonTurn++;
-        simonCounter++
         simonTurnArrayIndex++;
         simonColor = simonsTurnArray[simonTurnArrayIndex-1];
         console.log(simonsTurnArray);
@@ -39,7 +40,7 @@ function Simon() {
     }
 
     function clearTimer() {;
-        if (simonTurn === myTurn) {
+        if (simonTurn === turn) {
             clearInterval(simonTimer);
             simonTurnArrayIndex = 0;
             setTimeout(function() {
@@ -51,16 +52,34 @@ function Simon() {
         } 
     }
 
-    function turnCounter() {
-        if (myTurn > 0) {
-            colorArrayIndex = Math.floor(Math.random() * 4);
-            simonColor = colorArray[colorArrayIndex];
-            simonsTurnArray.push(simonColor);
-            simonTimer = setInterval(onTimerClick, 2000);
-            simonTurn = 0;
-            myTurn++;
-            document.getElementById('turn').textContent = `turn: ${myTurn}`;
+    function turnCounter(e) {
+        if (turn > 0) {
+            handleMyTurn(e);
         } else return;
+    }
+
+    function handleSimonTurn() {
+        colorArrayIndex = Math.floor(Math.random() * 4);
+        simonColor = colorArray[colorArrayIndex];
+        simonsTurnArray.push(simonColor);
+        simonTimer = setInterval(onTimerClick, 2000);
+        simonTurn = 0;
+    }
+
+    function handleMyTurn(e) {
+        if (e.target.id !== simonsTurnArray[myTurn]) {
+            gameOver = true;
+            console.log("GAME OVER!!!");
+            document.getElementById('gameover').textContent = "GAME OVER!";
+            return;
+        }
+        myTurn++;
+        if (myTurn === simonsTurnArray.length) {
+            turn++;
+            document.getElementById('turn').textContent = `turn: ${turn}`;
+            myTurn = 0;
+            handleSimonTurn();
+        }
     }
 
     function determineActiveColor(color) {
@@ -98,8 +117,8 @@ function Simon() {
                 <div className="quarterCircleBottomRight" id="blue" onClick={turnCounter}></div>
                 <div className="quarterCircleBottomLeft" id="yellow" onClick={turnCounter}></div>
             </div>
-            <button type="button" className="btn btn-secondary" onClick={onStartClick}>START</button>
-            <h1 id="test"></h1>
+            <button type="button" className="btn btn-secondary" id="start" onClick={onStartClick}>START</button>
+            <h1 id="gameover"></h1>
         </div>
     );
 }
