@@ -1,9 +1,13 @@
-import React from "react";
+import React, {useState} from "react";
+import Gameover from "../Gameover";
 import "./style.css";
 
 
 function Simon() {
-    // const [simonCounter, setSimonCounter] = useState(0);
+
+    const [gameover, setGameover] = useState(false);
+    const [gameoverMsg, setGameoverMsg] = useState("");
+
 
     let colorArray = ["red", "green", "yellow", "blue"];
     let turn = 0;
@@ -14,21 +18,23 @@ function Simon() {
     let simonTimer;
     let simonTurn = 0;
     let myTurn = 0;
-    let gameOver = false;
+    let timerDone = false;
+    
 
     function onStartClick() {
         turn = 1;
+        document.getElementById('turn').textContent = `turn: ${turn}`;
         simonTimer = setInterval(onTimerClick, 2000);
         colorArrayIndex = Math.floor(Math.random() * 4);
         simonsTurnArray.push(colorArray[colorArrayIndex]);
         document.getElementById('start').style.visibility = "hidden";
     }
 
-    function onTimerClick() {  
+    function onTimerClick() {
+        timerDone = false;
         simonTurn++;
         simonTurnArrayIndex++;
         simonColor = simonsTurnArray[simonTurnArrayIndex-1];
-        console.log(simonsTurnArray);
         determineActiveColor(simonColor);
         setTimeout(function() {
             document.getElementById('red').style.backgroundColor = "red";
@@ -41,19 +47,49 @@ function Simon() {
 
     function clearTimer() {;
         if (simonTurn === turn) {
+            timerDone = true;
             clearInterval(simonTimer);
             simonTurnArrayIndex = 0;
-            setTimeout(function() {
-                document.getElementById('red').style.backgroundColor = "red";
-                document.getElementById('green').style.backgroundColor = "green";
-                document.getElementById('blue').style.backgroundColor = "blue";
-                document.getElementById('yellow').style.backgroundColor = "yellow";
-            }, 1000);
+            // setTimeout(function() {
+            //     document.getElementById('red').style.backgroundColor = "red";
+            //     document.getElementById('green').style.backgroundColor = "green";
+            //     document.getElementById('blue').style.backgroundColor = "blue";
+            //     document.getElementById('yellow').style.backgroundColor = "yellow";
+            // }, 1000);
         } 
     }
 
+    document.addEventListener('mousedown', e => {
+        if (e.target.id === "red") {
+            document.getElementById("red").style.backgroundColor = "pink"
+        } else if (e.target.id === "yellow") {
+            document.getElementById("yellow").style.backgroundColor = "lightyellow"
+        }else  if (e.target.id === "blue") {
+            document.getElementById("blue").style.backgroundColor = "lightblue"
+        } else if (e.target.id === "green") {
+            document.getElementById("green").style.backgroundColor = "lightgreen"
+        }
+    });
+
+    document.addEventListener('mouseup', e => {
+        if (e.target.id === "red") {
+            document.getElementById("red").style.backgroundColor = "red"
+        } else if (e.target.id === "yellow") {
+            document.getElementById("yellow").style.backgroundColor = "yellow"
+        } else if (e.target.id === "blue") {
+            document.getElementById("blue").style.backgroundColor = "blue"
+        } else if (e.target.id === "green") {
+            document.getElementById("green").style.backgroundColor = "green"
+        } else {
+            document.getElementById("red").style.backgroundColor = "red"
+            document.getElementById("yellow").style.backgroundColor = "yellow"
+            document.getElementById("blue").style.backgroundColor = "blue"
+            document.getElementById("green").style.backgroundColor = "green"
+        }
+    });
+
     function turnCounter(e) {
-        if (turn > 0) {
+        if (turn > 0 && timerDone) {
             handleMyTurn(e);
         } else return;
     }
@@ -68,9 +104,10 @@ function Simon() {
 
     function handleMyTurn(e) {
         if (e.target.id !== simonsTurnArray[myTurn]) {
-            gameOver = true;
-            console.log("GAME OVER!!!");
-            document.getElementById('gameover').textContent = "GAME OVER!";
+            clearInterval(simonTimer);
+            setGameover(true);
+            setGameoverMsg("GAME OVER!");
+            localStorage.setItem('score', turn);
             return;
         }
         myTurn++;
@@ -85,24 +122,12 @@ function Simon() {
     function determineActiveColor(color) {
         if (color === "red") {
             document.getElementById('red').style.backgroundColor = "pink";
-            document.getElementById('green').style.backgroundColor = "green";
-            document.getElementById('blue').style.backgroundColor = "blue";
-            document.getElementById('yellow').style.backgroundColor = "yellow";
         } else if (color === "green") {
-            document.getElementById('red').style.backgroundColor = "red";
             document.getElementById('green').style.backgroundColor = "lightgreen";
-            document.getElementById('blue').style.backgroundColor = "blue";
-            document.getElementById('yellow').style.backgroundColor = "yellow";
         } else if (color === "yellow") {
-            document.getElementById('red').style.backgroundColor = "red";
-            document.getElementById('green').style.backgroundColor = "green";
-            document.getElementById('blue').style.backgroundColor = "blue";
             document.getElementById('yellow').style.backgroundColor = "lightyellow";
         } else if (color === "blue") {
-            document.getElementById('red').style.backgroundColor = "red";
-            document.getElementById('green').style.backgroundColor = "green";
             document.getElementById('blue').style.backgroundColor = "lightblue";
-            document.getElementById('yellow').style.backgroundColor = "yellow";
         }
     }
 
@@ -118,7 +143,13 @@ function Simon() {
                 <div className="quarterCircleBottomLeft" id="yellow" onClick={turnCounter}></div>
             </div>
             <button type="button" className="btn btn-secondary" id="start" onClick={onStartClick}>START</button>
-            <h1 id="gameover"></h1>
+            {/* <h1 id="gameover"></h1> */}
+            {gameover ? (
+                <Gameover
+                    gameoverMsg = {gameoverMsg}
+                ></Gameover>
+            ) : null}
+            
         </div>
     );
 }
