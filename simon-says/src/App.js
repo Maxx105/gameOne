@@ -3,7 +3,7 @@ import Simon from "./components/Simon/index";
 
 function App() {
   return (
-    <div className="App" style={{margin: "auto", width: "50%"}}>
+    <div className = "center">
       <Simon></Simon>
     </div>
   );

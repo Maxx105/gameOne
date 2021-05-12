@@ -5,7 +5,7 @@ import "./style.css";
 function Gameover(props) {
     return (
         <div>
-            <h1>{props.gameoverMsg}</h1>
+            <h3>{props.gameoverMsg}</h3>
             <form>
                 <button className="btn btn-secondary">Start Over</button>
             </form>

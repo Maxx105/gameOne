@@ -19,11 +19,12 @@ function Simon() {
     let simonTurn = 0;
     let myTurn = 0;
     let timerDone = false;
+    let score = [];
     
 
     function onStartClick() {
         turn = 1;
-        document.getElementById('turn').textContent = `turn: ${turn}`;
+        // document.getElementById('turn').textContent = `turn: ${turn}`;
         simonTimer = setInterval(onTimerClick, 2000);
         colorArrayIndex = Math.floor(Math.random() * 4);
         simonsTurnArray.push(colorArray[colorArrayIndex]);
@@ -107,13 +108,19 @@ function Simon() {
             clearInterval(simonTimer);
             setGameover(true);
             setGameoverMsg("GAME OVER!");
-            localStorage.setItem('score', turn);
+            // if (!localStorage.getItem('score')) {
+            //     score.push(turn)
+            // } else score = localStorage.getItem('score')
+            // // score = localStorage.getItem('score');
+            // console.log(score)
+            // localStorage.setItem('score', score)
+
             return;
         }
         myTurn++;
         if (myTurn === simonsTurnArray.length) {
             turn++;
-            document.getElementById('turn').textContent = `turn: ${turn}`;
+            // document.getElementById('turn').textContent = `turn: ${turn}`;
             myTurn = 0;
             handleSimonTurn();
         }
@@ -132,24 +139,24 @@ function Simon() {
     }
 
     return (
-        <div className="App">
-            <h1 id="turn"></h1>
-            <div className = "row">
-                <div className="quarterCircleTopLeft" id="green" onClick={turnCounter}></div>
-                <div className="quarterCircleTopRight" id="red" onClick={turnCounter}></div>
+        <div style={{margin: "auto"}}>
+            <h1 id="turn" ></h1>
+            <div>
+                <div className = "row">
+                    <div className="quarterCircleTopLeft" id="green" onClick={turnCounter}></div>
+                    <div className="quarterCircleTopRight" id="red" onClick={turnCounter}></div>
+                </div>
+                <div className = "row">
+                    <div className="quarterCircleBottomRight" id="blue" onClick={turnCounter}></div>
+                    <div className="quarterCircleBottomLeft" id="yellow" onClick={turnCounter}></div>
+                </div>
+                <button type="button" className="btn btn-secondary" id="start" onClick={onStartClick}>START</button>
+                {gameover ? (
+                    <Gameover
+                        gameoverMsg = {gameoverMsg}
+                    ></Gameover>
+                ) : <div></div>}
             </div>
-            <div className = "row">
-                <div className="quarterCircleBottomRight" id="blue" onClick={turnCounter}></div>
-                <div className="quarterCircleBottomLeft" id="yellow" onClick={turnCounter}></div>
-            </div>
-            <button type="button" className="btn btn-secondary" id="start" onClick={onStartClick}>START</button>
-            {/* <h1 id="gameover"></h1> */}
-            {gameover ? (
-                <Gameover
-                    gameoverMsg = {gameoverMsg}
-                ></Gameover>
-            ) : null}
-            
         </div>
     );
 }
