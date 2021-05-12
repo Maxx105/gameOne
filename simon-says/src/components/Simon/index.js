@@ -7,6 +7,7 @@ function Simon() {
 
     const [gameover, setGameover] = useState(false);
     const [gameoverMsg, setGameoverMsg] = useState("");
+    const [score, setScore] = useState(0);
 
 
     let colorArray = ["red", "green", "yellow", "blue"];
@@ -19,7 +20,7 @@ function Simon() {
     let simonTurn = 0;
     let myTurn = 0;
     let timerDone = false;
-    let score = [];
+    // let score = [];
     
 
     function onStartClick() {
@@ -92,6 +93,8 @@ function Simon() {
     function turnCounter(e) {
         if (turn > 0 && timerDone) {
             handleMyTurn(e);
+            // console.log(turn)
+           
         } else return;
     }
 
@@ -108,6 +111,7 @@ function Simon() {
             clearInterval(simonTimer);
             setGameover(true);
             setGameoverMsg("GAME OVER!");
+            setScore(turn);
             // if (!localStorage.getItem('score')) {
             //     score.push(turn)
             // } else score = localStorage.getItem('score')
@@ -154,6 +158,7 @@ function Simon() {
                 {gameover ? (
                     <Gameover
                         gameoverMsg = {gameoverMsg}
+                        score = {score}
                     ></Gameover>
                 ) : <div></div>}
             </div>
