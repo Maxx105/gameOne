@@ -11,7 +11,7 @@ function Highscores(props) {
 
     return (
         <div style={{margin: "20px"}}>
-            <table class="table">
+            <table class="table table-striped">
             <thead>
                 <tr>
                     <th scope="col">#</th>

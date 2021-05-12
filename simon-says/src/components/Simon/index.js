@@ -160,7 +160,7 @@ function Simon() {
                         gameoverMsg = {gameoverMsg}
                         score = {score}
                     ></Gameover>
-                ) : <div></div>}
+                ) : null}
             </div>
         </div>
     );
