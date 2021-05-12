@@ -3,8 +3,11 @@ import Simon from "./components/Simon/index";
 
 function App() {
   return (
-    <div className = "center">
-      <Simon></Simon>
+    <div>
+      <h1 id="simon">SIMON</h1> 
+      <div className = "center">
+        <Simon></Simon>
+      </div>
     </div>
   );
 }

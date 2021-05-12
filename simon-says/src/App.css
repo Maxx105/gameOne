@@ -4,3 +4,9 @@
     align-items: center;
     text-align: center;
 }
+
+#simon {
+    margin-top: 20px;
+    text-align: center;
+    font-family: 'Goblin One';
+}

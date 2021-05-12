@@ -28,6 +28,7 @@ function HighscoreModal(props) {
             scores.push(scoresObj)
             localStorage.setItem('score', JSON.stringify(scores))
         }
+        document.getElementById("initials").value = "";
         
     }
 
@@ -43,11 +44,10 @@ function HighscoreModal(props) {
                     </div>
                     <div className="modal-body">
                         <p>Enter your Initials:</p>
-                        <input onChange={handleInputChange}/>
+                        <input onChange={handleInputChange} id="initials"/>
                     </div>
                     <div className="modal-footer">
-                        <button type="button" className="btn btn-secondary" onClick = {handleSubmit}> Submit </button>
-                        <button type="button" className="btn btn-secondary" data-dismiss="modal">Close</button> <br/>
+                        <button type="button" className="btn btn-secondary" onClick = {handleSubmit} data-dismiss="modal"> Submit </button>
                     </div>
                 </div>
             </div>

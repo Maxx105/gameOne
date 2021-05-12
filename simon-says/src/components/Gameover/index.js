@@ -4,7 +4,6 @@ import "./style.css";
 
 
 function Gameover(props) {
-    console.log(props)
     return (
         <div>
             <h3>{props.gameoverMsg}</h3>
