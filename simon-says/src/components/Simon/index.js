@@ -26,7 +26,7 @@ function Simon() {
     function onStartClick() {
         turn = 1;
         // document.getElementById('turn').textContent = `turn: ${turn}`;
-        simonTimer = setInterval(onTimerClick, 2000);
+        simonTimer = setInterval(onTimerClick, 1000);
         colorArrayIndex = Math.floor(Math.random() * 4);
         simonsTurnArray.push(colorArray[colorArrayIndex]);
         document.getElementById('start').style.visibility = "hidden";
@@ -43,7 +43,7 @@ function Simon() {
             document.getElementById('green').style.backgroundColor = "green";
             document.getElementById('blue').style.backgroundColor = "blue";
             document.getElementById('yellow').style.backgroundColor = "yellow";
-        }, 1000);
+        }, 500);
         clearTimer();
     }
 
@@ -57,7 +57,7 @@ function Simon() {
             //     document.getElementById('green').style.backgroundColor = "green";
             //     document.getElementById('blue').style.backgroundColor = "blue";
             //     document.getElementById('yellow').style.backgroundColor = "yellow";
-            // }, 1000);
+            // }, 500);
         } 
     }
 
@@ -102,7 +102,7 @@ function Simon() {
         colorArrayIndex = Math.floor(Math.random() * 4);
         simonColor = colorArray[colorArrayIndex];
         simonsTurnArray.push(simonColor);
-        simonTimer = setInterval(onTimerClick, 2000);
+        simonTimer = setInterval(onTimerClick, 1000);
         simonTurn = 0;
     }
 
